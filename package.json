@@ -1,0 +1,23 @@
+{
+  "name": "mongo_keyval",
+  "version": "1.0.0",
+  "description": "simple key-value store api on top of mongodb",
+  "main": "mongo_keyval.js",
+  "dependencies": {
+    "mongodb": "^1.4.34"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gkovacs/mongo_keyval"
+  },
+  "author": "Geza Kovacs (http://github.com/gkovacs)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gkovacs/mongo_keyval/issues"
+  },
+  "homepage": "https://github.com/gkovacs/mongo_keyval"
+}
