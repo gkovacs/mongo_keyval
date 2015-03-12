@@ -46,4 +46,4 @@ Otherwise, the default url will be the local mongo instance:
 
 You can manually specify the mongo URL by setting mongo_keyval.mongourl
 
-Keys are values are stored in the collection 'vars'
+Values are stored in the collection 'vars' under the key specified.
