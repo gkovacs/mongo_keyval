@@ -47,3 +47,5 @@ Otherwise, the default url will be the local mongo instance:
 You can manually specify the mongo URL by setting mongo_keyval.mongourl
 
 Values are stored in the collection 'vars' under the key specified.
+
+You can manually specify the collection name by setting mongo_keyval.collection

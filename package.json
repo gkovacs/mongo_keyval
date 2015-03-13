@@ -1,6 +1,6 @@
 {
   "name": "mongo_keyval",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "simple key-value store api on top of mongodb",
   "main": "mongo_keyval.js",
   "dependencies": {

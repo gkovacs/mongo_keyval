@@ -9,7 +9,7 @@ mongolab = process.env.MONGOLAB_URI
 mongosoup = process.env.MONGOSOUP_URL
 
 getmongourl = ->
-  if module? and module.exports? and module.exports.mongourl?
+  if module.exports.mongourl?
     return module.exports.mongourl
   return mongohq ? mongolab ? mongosoup ? 'mongodb://localhost:27017/default'
 
@@ -27,9 +27,16 @@ get-mongo-db = (callback) ->
 
 get-vars-collection = (callback) ->
   get-mongo-db (db) ->
-    callback db.collection('vars'), db
+    collection = module.exports.collection ? 'vars'
+    callback db.collection(collection), db
 
 get = (varname, callback) ->
+  # cannot have $ or . in key names
+  # http://docs.mongodb.org/manual/reference/limits/#Restrictions-on-Field-Names
+  if varname.indexOf('$') != -1
+    varname = varname.split('$').join('＄')
+  if varname.indexOf('.') != -1
+    varname = varname.split('.').join('．')
   get-vars-collection (vars-collection, db) ->
     vars-collection.findOne {_id: varname}, (err, result) ->
       if not result? or not result.val?
@@ -40,11 +47,14 @@ get = (varname, callback) ->
       db.close()
 
 set = (varname, val, callback) ->
+  if varname.indexOf('$') != -1
+    varname = varname.split('$').join('＄')
+  if varname.indexOf('.') != -1
+    varname = varname.split('.').join('．')
   get-vars-collection (vars-collection, db) ->
     vars-collection.save {_id: varname, name: varname, val: JSON.stringify(val)}, (err, result) ->
       if callback?
         callback val
       db.close()
 
-if module? and module.exports?
-  module.exports = {get, set}
+module.exports = {get, set}
