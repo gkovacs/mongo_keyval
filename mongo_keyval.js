@@ -7,7 +7,7 @@
   mongolab = process.env.MONGOLAB_URI;
   mongosoup = process.env.MONGOSOUP_URL;
   getmongourl = function(){
-    if ((typeof module != 'undefined' && module !== null) && module.exports != null && module.exports.mongourl != null) {
+    if (module.exports.mongourl != null) {
       return module.exports.mongourl;
     }
     return mongohq != null
@@ -27,10 +27,18 @@
   };
   getVarsCollection = function(callback){
     return getMongoDb(function(db){
-      return callback(db.collection('vars'), db);
+      var collection, ref$;
+      collection = (ref$ = module.exports.collection) != null ? ref$ : 'vars';
+      return callback(db.collection(collection), db);
     });
   };
   get = function(varname, callback){
+    if (varname.indexOf('$') !== -1) {
+      varname = varname.split('$').join('＄');
+    }
+    if (varname.indexOf('.') !== -1) {
+      varname = varname.split('.').join('．');
+    }
     return getVarsCollection(function(varsCollection, db){
       return varsCollection.findOne({
         _id: varname
@@ -46,6 +54,12 @@
     });
   };
   set = function(varname, val, callback){
+    if (varname.indexOf('$') !== -1) {
+      varname = varname.split('$').join('＄');
+    }
+    if (varname.indexOf('.') !== -1) {
+      varname = varname.split('.').join('．');
+    }
     return getVarsCollection(function(varsCollection, db){
       return varsCollection.save({
         _id: varname,
@@ -59,10 +73,8 @@
       });
     });
   };
-  if ((typeof module != 'undefined' && module !== null) && module.exports != null) {
-    module.exports = {
-      get: get,
-      set: set
-    };
-  }
+  module.exports = {
+    get: get,
+    set: set
+  };
 }).call(this);
